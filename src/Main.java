@@ -3,7 +3,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,8 +27,27 @@ public class Main {
         }
         AddTask(file, newTask.toString());
       }
+    } else if (args[0].equals("-r")) {
+      if (args.length == 1) {
+        System.out.println("Unable to remove: no index provided");
+      } else {
+        if (tryParseInt(args[1])) {
+          RemoveTask(file, Integer.parseInt(args[1]));
+        }
+      }
     }
 
+  }
+
+
+  private static Boolean tryParseInt(String value) {
+    try {
+      Integer.parseInt(value);
+      return true;
+    } catch (NumberFormatException e) {
+      System.out.println("Unable to remove: index is not a number");
+      return false;
+    }
   }
 
   private static String toNumberedItems(ArrayList<Task> tasks) {
@@ -79,7 +97,20 @@ public class Main {
     tasks.add(new Task(newTask));
     OverwriteTasks(file, tasks);
   }
+
+  private static void RemoveTask(String file, int index) {
+    ArrayList<Task> tasks = ListTasks(file);
+    if (index > tasks.size() || index < 1) {
+      System.out.println("Unable to remove: index is out of bound");
+    } else {
+      tasks.remove(index - 1);
+    }
+    OverwriteTasks(file, tasks);
+  }
+
+
 }
+
 
 
 
