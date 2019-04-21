@@ -84,7 +84,7 @@ public class Main {
   private static String toNumberedItems(ArrayList<Task> tasks) {
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < tasks.size(); i++) {
-      result.append(i + 1).append(". ").append(tasks.get(i).getText()).append("\n");
+      result.append(i + 1).append(" - ").append(tasks.get(i).toString()).append("\n");
     }
     return result.toString();
 
@@ -106,26 +106,25 @@ public class Main {
   private static void overwriteTasks(String file, ArrayList<Task> tasks) {
     try {
       Path src = Paths.get(file);
-      Files.write(src, tasks.stream().map(Task::getText).collect(Collectors.toList()));
+      Files.write(src, tasks.stream().map(Task::toString).collect(Collectors.toList()));
     } catch (IOException e) {
       e.printStackTrace();
       System.out.println("Unable to read file: tasks.txt");
     }
   }
 
-
   private static ArrayList<Task> listTasks(String file) {
     List<String> content = openFile(file);
     ArrayList<Task> tasks = new ArrayList<>();
     for (String line : content) {
-      tasks.add(new Task(line));
+      tasks.add(Task.readLineFromFile(line));
     }
     return tasks;
   }
 
   private static void addTask(String file, String newTask) {
     ArrayList<Task> tasks = listTasks(file);
-    tasks.add(new Task("[ ] " + newTask));
+    tasks.add(new Task(newTask));
     overwriteTasks(file, tasks);
   }
 
@@ -137,14 +136,10 @@ public class Main {
 
   private static ArrayList<Task> checkTask(String file, int index) {
     ArrayList<Task> tasks = listTasks(file);
-    String checked = tasks.get(index - 1).text.substring(4);
-    Task checkedTask = new Task("");
-
-    checkedTask.fill("[x] " + checked);
-    tasks.set(index - 1, checkedTask);
+    tasks.get(index - 1).setChecked();
     overwriteTasks(file, tasks);
 
-  return tasks;
+    return tasks;
   }
 
 }

@@ -1,16 +1,29 @@
-
 class Task {
-  String text;
+
+  private String text;
+  private boolean checked;
 
   Task(String text) {
-    this.text =  text;
+    this(text, false);
   }
 
-  void fill(String text) {
+  private Task(String text, boolean checked) {
     this.text = text;
+    this.checked = checked;
   }
 
-  String getText() {
-    return text;
+  static Task readLineFromFile(String line) {
+    String text = line.substring(4);
+    boolean checked = line.startsWith("[x] ");
+    return new Task(text, checked);
+  }
+
+  void setChecked() {
+    this.checked = true;
+  }
+
+  @Override
+  public String toString() {
+    return "[" + (checked ? "x" : " ") + "] " + text;
   }
 }

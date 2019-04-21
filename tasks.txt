@@ -1,4 +1,5 @@
 [ ] Walk the dog
-[ ] Buy milk
 [ ] Do homework
-[ ] Finish the app 
+[ ] Drink coffee
+[ ] Drink coffee 
+[x] Eat an apple
