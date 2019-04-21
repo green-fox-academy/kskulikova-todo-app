@@ -84,7 +84,7 @@ public class Main {
   private static String toNumberedItems(ArrayList<Task> tasks) {
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < tasks.size(); i++) {
-      result.append(i + 1).append(". ").append(tasks.get(i).getText()).append("\n");
+      result.append(i + 1).append(". ").append("[ ] ").append(tasks.get(i).getText()).append("\n");
     }
     return result.toString();
 
