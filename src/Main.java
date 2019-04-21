@@ -30,7 +30,27 @@ public class Main {
         System.out.println("Unable to remove: no index provided");
       } else {
         if (tryParseInt(args[1])) {
-          removeTask(file, Integer.parseInt(args[1]));
+          if (checkIndexOutOfBounds(file, Integer.parseInt(args[1]))) {
+            removeTask(file, Integer.parseInt(args[1]));
+          } else {
+            System.out.println("Unable to remove: index out of bound");
+          }
+        } else {
+          System.out.println("Unable to remove: index is not a number");
+        }
+      }
+    } else if (args[0].equals("-c")) {
+      if (args.length == 1) {
+        System.out.println("Unable to check: no index provided");
+      } else {
+        if (tryParseInt(args[1])) {
+          if (checkIndexOutOfBounds(file, Integer.parseInt(args[1]))) {
+            checkTask(file, Integer.parseInt(args[1]));
+          } else {
+            System.out.println("Unable to check: index out of bound");
+          }
+        } else {
+          System.out.println("Unable to check: index is not a number");
         }
       }
     } else {
@@ -52,9 +72,13 @@ public class Main {
       Integer.parseInt(value);
       return true;
     } catch (NumberFormatException e) {
-      System.out.println("Unable to remove: index is not a number");
       return false;
     }
+  }
+
+  private static Boolean checkIndexOutOfBounds(String file, int index) {
+    ArrayList<Task> tasks = listTasks(file);
+    return index <= tasks.size() && index >= 1;
   }
 
   private static String toNumberedItems(ArrayList<Task> tasks) {
@@ -107,12 +131,13 @@ public class Main {
 
   private static void removeTask(String file, int index) {
     ArrayList<Task> tasks = listTasks(file);
-    if (index > tasks.size() || index < 1) {
-      System.out.println("Unable to remove: index is out of bound");
-    } else {
-      tasks.remove(index - 1);
-    }
+    tasks.remove(index - 1);
     overwriteTasks(file, tasks);
+  }
+
+  private static void checkTask(String file, int index) {
+    ArrayList<Task> tasks = listTasks(file);
+    System.out.println("I'm checking the task number " + index);
   }
 
 
