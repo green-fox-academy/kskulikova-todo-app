@@ -12,11 +12,9 @@ public class Main {
     String file = "tasks.txt";
 
     if (args.length == 0) {
-      System.out.println("Command Line Todo application\n" + "=============================\n\n" +
-          "Command line arguments:\n" + "-l   Lists all the tasks\n" + "-a   Adds a new task\n" +
-          "-r   Removes an task\n" + "-c   Completes an task\n");
+      printUsageInfo();
     } else if (args[0].equals("-l")) {
-      System.out.println(toNumberedItems(ListTasks(file)));
+      System.out.println(toNumberedItems(listTasks(file)));
     } else if (args[0].equals("-a")) {
       if (args.length == 1) {
         System.out.println("Unable to add: no task provided");
@@ -25,20 +23,29 @@ public class Main {
         for (int i = 1; i < args.length; i++) {
           newTask.append(args[i]).append(" ");
         }
-        AddTask(file, newTask.toString());
+        addTask(file, newTask.toString());
       }
     } else if (args[0].equals("-r")) {
       if (args.length == 1) {
         System.out.println("Unable to remove: no index provided");
       } else {
         if (tryParseInt(args[1])) {
-          RemoveTask(file, Integer.parseInt(args[1]));
+          removeTask(file, Integer.parseInt(args[1]));
         }
       }
+    } else {
+      System.out.println("Unsupported argument");
+      printUsageInfo();
+
     }
 
   }
 
+  private static void printUsageInfo() {
+    System.out.println("Command Line Todo application\n" + "=============================\n\n" +
+        "Command line arguments:\n" + "-l   Lists all the tasks\n" + "-a   Adds a new task\n" +
+        "-r   Removes an task\n" + "-c   Completes an task\n");
+  }
 
   private static Boolean tryParseInt(String value) {
     try {
@@ -59,7 +66,7 @@ public class Main {
 
   }
 
-  private static List<String> OpenFile(String file) {
+  private static List<String> openFile(String file) {
     List<String> content = new ArrayList<>();
     try {
       Path src = Paths.get(file);
@@ -72,7 +79,7 @@ public class Main {
     return content;
   }
 
-  private static void OverwriteTasks(String file, ArrayList<Task> tasks) {
+  private static void overwriteTasks(String file, ArrayList<Task> tasks) {
     try {
       Path src = Paths.get(file);
       Files.write(src, tasks.stream().map(Task::getText).collect(Collectors.toList()));
@@ -83,8 +90,8 @@ public class Main {
   }
 
 
-  private static ArrayList<Task> ListTasks(String file) {
-    List<String> content = OpenFile(file);
+  private static ArrayList<Task> listTasks(String file) {
+    List<String> content = openFile(file);
     ArrayList<Task> tasks = new ArrayList<>();
     for (String line : content) {
       tasks.add(new Task(line));
@@ -92,20 +99,20 @@ public class Main {
     return tasks;
   }
 
-  private static void AddTask(String file, String newTask) {
-    ArrayList<Task> tasks = ListTasks(file);
+  private static void addTask(String file, String newTask) {
+    ArrayList<Task> tasks = listTasks(file);
     tasks.add(new Task(newTask));
-    OverwriteTasks(file, tasks);
+    overwriteTasks(file, tasks);
   }
 
-  private static void RemoveTask(String file, int index) {
-    ArrayList<Task> tasks = ListTasks(file);
+  private static void removeTask(String file, int index) {
+    ArrayList<Task> tasks = listTasks(file);
     if (index > tasks.size() || index < 1) {
       System.out.println("Unable to remove: index is out of bound");
     } else {
       tasks.remove(index - 1);
     }
-    OverwriteTasks(file, tasks);
+    overwriteTasks(file, tasks);
   }
 
 
