@@ -1,23 +1,16 @@
-import java.util.ArrayList;
-import java.util.List;
 
-public class Task {
+class Task {
   String text;
-  boolean completed;
 
-  public void complete() {
-    this.completed = true;
+  Task(String text) {
+    this.text =  text;
   }
 
-  public Task(String text) {
+  void fill(String text) {
     this.text = text;
   }
 
-  public void fill(String text) {
-    this.text = text;
-  }
-
-  public String getText() {
+  String getText() {
     return text;
   }
 }

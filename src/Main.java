@@ -45,7 +45,7 @@ public class Main {
       } else {
         if (tryParseInt(args[1])) {
           if (checkIndexOutOfBounds(file, Integer.parseInt(args[1]))) {
-            checkTask(file, Integer.parseInt(args[1]));
+            System.out.println(toNumberedItems(checkTask(file, Integer.parseInt(args[1]))));
           } else {
             System.out.println("Unable to check: index out of bound");
           }
@@ -84,7 +84,7 @@ public class Main {
   private static String toNumberedItems(ArrayList<Task> tasks) {
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < tasks.size(); i++) {
-      result.append(i + 1).append(". ").append("[ ] ").append(tasks.get(i).getText()).append("\n");
+      result.append(i + 1).append(". ").append(tasks.get(i).getText()).append("\n");
     }
     return result.toString();
 
@@ -125,7 +125,7 @@ public class Main {
 
   private static void addTask(String file, String newTask) {
     ArrayList<Task> tasks = listTasks(file);
-    tasks.add(new Task(newTask));
+    tasks.add(new Task("[ ] " + newTask));
     overwriteTasks(file, tasks);
   }
 
@@ -135,11 +135,17 @@ public class Main {
     overwriteTasks(file, tasks);
   }
 
-  private static void checkTask(String file, int index) {
+  private static ArrayList<Task> checkTask(String file, int index) {
     ArrayList<Task> tasks = listTasks(file);
-    System.out.println("I'm checking the task number " + index);
-  }
+    String checked = tasks.get(index - 1).text.substring(4);
+    Task checkedTask = new Task("");
 
+    checkedTask.fill("[x] " + checked);
+    tasks.set(index - 1, checkedTask);
+    overwriteTasks(file, tasks);
+
+  return tasks;
+  }
 
 }
 
