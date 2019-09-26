@@ -4,7 +4,7 @@ A simple TODO application that can be used from CLI.
 ## Getting Started
 **Setting up an alias**
 
-To be able to run the application from which directory you are in, you can add an alias to your .bash_profile file:
+To be able to run the application from any directory you are in, you can add an alias to your .bash_profile file:
 
 
 alias todo *(or any aliasname of your choice)* = "cd *local project directory*/***src*** && java Main -file *local project directory*/***tasks.txt***"
