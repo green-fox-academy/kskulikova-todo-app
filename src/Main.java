@@ -8,30 +8,35 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-  public static void main(String[] args) {
-    String file = "tasks.txt";
+  private static final String FILE = "-file";
+  private static String filePath;
 
-    if (args.length == 0) {
+  public static void main(String[] args) {
+    if ((args.length > 1) && (FILE.equals(args[0]))) {
+      filePath = args[1];
+    }
+
+    if (args.length < 3) {
       printUsageInfo();
-    } else if (args[0].equals("-l")) {
-      System.out.println(toNumberedItems(listTasks(file)));
-    } else if (args[0].equals("-a")) {
-      if (args.length == 1) {
+    } else if (args[2].equals("-l")) {
+      System.out.println(toNumberedItems(listTasks(filePath)));
+    } else if (args[2].equals("-a")) {
+      if (args.length == 3) {
         System.out.println("Unable to add: no task provided");
       } else {
         StringBuilder newTask = new StringBuilder();
-        for (int i = 1; i < args.length; i++) {
+        for (int i = 3; i < args.length; i++) {
           newTask.append(args[i]).append(" ");
         }
-        addTask(file, newTask.toString());
+        addTask(filePath, newTask.toString());
       }
-    } else if (args[0].equals("-r")) {
-      if (args.length == 1) {
+    } else if (args[2].equals("-r")) {
+      if (args.length == 3) {
         System.out.println("Unable to remove: no index provided");
       } else {
-        if (tryParseInt(args[1])) {
-          if (checkIndexOutOfBounds(file, Integer.parseInt(args[1]))) {
-            removeTask(file, Integer.parseInt(args[1]));
+        if (tryParseInt(args[3])) {
+          if (checkIndexOutOfBounds(filePath, Integer.parseInt(args[3]))) {
+            removeTask(filePath, Integer.parseInt(args[3]));
           } else {
             System.out.println("Unable to remove: index out of bound");
           }
@@ -39,13 +44,13 @@ public class Main {
           System.out.println("Unable to remove: index is not a number");
         }
       }
-    } else if (args[0].equals("-c")) {
-      if (args.length == 1) {
+    } else if (args[2].equals("-c")) {
+      if (args.length == 3) {
         System.out.println("Unable to check: no index provided");
       } else {
-        if (tryParseInt(args[1])) {
-          if (checkIndexOutOfBounds(file, Integer.parseInt(args[1]))) {
-            System.out.println(toNumberedItems(checkTask(file, Integer.parseInt(args[1]))));
+        if (tryParseInt(args[3])) {
+          if (checkIndexOutOfBounds(filePath, Integer.parseInt(args[3]))) {
+            System.out.println(toNumberedItems(checkTask(filePath, Integer.parseInt(args[3]))));
           } else {
             System.out.println("Unable to check: index out of bound");
           }
@@ -58,7 +63,6 @@ public class Main {
       printUsageInfo();
 
     }
-
   }
 
   private static void printUsageInfo() {
@@ -78,7 +82,7 @@ public class Main {
 
   private static Boolean checkIndexOutOfBounds(String file, int index) {
     ArrayList<Task> tasks = listTasks(file);
-    return index <= tasks.size() && index >= 1;
+    return index <= tasks.size() && index >= 3;
   }
 
   private static String toNumberedItems(ArrayList<Task> tasks) {
@@ -87,7 +91,6 @@ public class Main {
       result.append(i + 1).append(" - ").append(tasks.get(i).toString()).append("\n");
     }
     return result.toString();
-
   }
 
   private static List<String> openFile(String file) {
@@ -141,7 +144,6 @@ public class Main {
 
     return tasks;
   }
-
 }
 
 
