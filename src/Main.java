@@ -82,7 +82,7 @@ public class Main {
 
   private static Boolean checkIndexOutOfBounds(String file, int index) {
     ArrayList<Task> tasks = listTasks(file);
-    return index <= tasks.size() && index >= 3;
+    return index <= tasks.size() && index >= 1;
   }
 
   private static String toNumberedItems(ArrayList<Task> tasks) {

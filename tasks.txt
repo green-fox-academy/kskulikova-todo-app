@@ -1,5 +1,4 @@
-[ ] Walk the dog
-[ ] Do homework
-[ ] Drink coffee
-[ ] Drink coffee 
+[x] Drink coffee
+[x] Drink coffee 
 [x] Eat an apple
+[x] Popit' chai 
